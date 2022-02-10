@@ -27,6 +27,9 @@ public class Case {
     public boolean validePourSim(){
         return false;
     }
+    public String getCouleurCase(){
+        return "\u001B[40m";
+    }
     
     @Override
     public String toString() {

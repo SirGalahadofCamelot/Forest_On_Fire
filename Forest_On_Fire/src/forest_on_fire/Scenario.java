@@ -148,6 +148,15 @@ public class Scenario {
             System.out.println();
         }
     }
+    public void afficherGrilleCouleurs(){
+        for(int i=0;i<this.tailleGrilleX;i++){
+            for(int j=0;j<this.tailleGrilleY;j++){
+                System.out.print(this.grille[i][j].getCouleurCase()+" "+"\u001B[0m");
+            }
+            System.out.println();
+        }
+    }
+
     public void sauverScenario(String nomFichier){
         try{
             FileWriter fich = new FileWriter(System.getProperty("user.dir")+"\\"+nomFichier+".txt");
@@ -295,7 +304,7 @@ public class Scenario {
                     else if(caseEnflammee.getEtatCase()==Etat.ENFLAMME && caseEnflammee.getCompteurInflammation()>=caseEnflammee.dureeVieEtat()){//Si la durée de vie est atteinte
                         caseEnflammee.changerDEtat();//La case passe de enflammee à brule chaud
                     }                     
-                    else if(caseEnflammee.getEtatCase().peutPasserFeu()){//La case peut encore transmettre le feu et ne vient pas de changer d'etat
+                    if(caseEnflammee.getEtatCase().peutPasserFeu()){//La case peut encore transmettre le feu
                         distribuerCoefFeu(caseEnflammee);//On ajoute les coefs de proba d'inflammation aux voisins concernés
                         caseEnflammee.indenterCompteurInflammation();//On indente le compteur d'inflammation de 1
                     }  
@@ -326,8 +335,9 @@ public class Scenario {
                 System.out.print("\033[H\033[2J");  
                 System.out.flush();  
                 System.out.println("ETAT DU SCENARIO A t="+this.horloge);
-                this.afficherGrille();
-                TimeUnit.MILLISECONDS.sleep(90);
+                //this.afficherGrille();
+                this.afficherGrilleCouleurs();
+                TimeUnit.MILLISECONDS.sleep(100);
                 }
                 catch(InterruptedException e){e.printStackTrace();}
             }

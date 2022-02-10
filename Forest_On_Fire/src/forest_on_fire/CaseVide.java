@@ -18,6 +18,10 @@ public class CaseVide extends Case{
         return '_';
     }
     @Override
+    public String getCouleurCase(){
+        return "\u001B[48;5;143m";
+    }
+    @Override
     public String toString() {
         return super.toString()+", TYPE=CASEVIDE";
     }

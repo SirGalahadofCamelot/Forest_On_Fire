@@ -5,11 +5,13 @@ public class CaseVegetation extends CaseInflammable {
     public CaseVegetation(int valCoordX, int valCoordY, Etat valEtatCase) {
         super(valCoordX, valCoordY, valEtatCase);
         this.setDefaultID('-');//Ceci est le symbole par défaut de la case vegetation. Il sera affiché lorsque son état est INTACTE
+        this.setDefaultColor("\u001B[42m");
     }
 
     public CaseVegetation(Case caseSimple, Etat valEtatCase) {
         super(caseSimple, valEtatCase);
-        this.setDefaultID('-');        
+        this.setDefaultID('-');   
+        this.setDefaultColor("\u001B[42m");     
     }
 
     @Override
@@ -33,4 +35,5 @@ public class CaseVegetation extends CaseInflammable {
     public boolean validePourSim() {
         return true;
     } 
+    
 }

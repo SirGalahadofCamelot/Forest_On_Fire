@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public abstract class CaseInflammable extends Case{
 
     private char defaultID;
+    private String defaultColor;
     private Etat etatCase;
     private int compteurInflammation=0;
     private ArrayList<Double> probaInflamm;
@@ -20,13 +21,17 @@ public abstract class CaseInflammable extends Case{
         super(caseSimple.getCoordX(),caseSimple.getCoordY(),true);
         this.etatCase = valEtatCase;
         this.probaInflamm = new ArrayList<>();
-    }          
-    
+    }
+
     @Override
     public char myID() {
         if(this.etatCase.equals(Etat.INTACTE))return this.defaultID;
-        else return this.etatCase.getMonID(); 
-        
+        else return this.etatCase.getMonID();        
+    }
+    @Override
+    public String getCouleurCase(){
+        if(this.etatCase.equals(Etat.INTACTE))return this.defaultColor;
+        else return this.etatCase.getColor();  
     }
 
     @Override
@@ -76,4 +81,10 @@ public abstract class CaseInflammable extends Case{
         }
         
     }
+    public String getDefaultColor() {
+        return defaultColor;
+    }
+    public void setDefaultColor(String defaultColor) {
+        this.defaultColor = defaultColor;
+    }    
 }

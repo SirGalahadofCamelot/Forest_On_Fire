@@ -41,8 +41,10 @@ public class App {
         
         //CREATION DU SCENARIO
         Scanner sc = new Scanner(System.in);
-        System.out.print("Entrez la taille de la grille carrée: ");
-        int taille = sc.nextInt(); sc.nextLine(); //Le nextLine() est là pour purger la console des retours à la ligne.
+
+        //System.out.print("Entrez la taille de la grille carrée: ");
+        //int taille = sc.nextInt(); sc.nextLine(); //Le nextLine() est là pour purger la console des retours à la ligne.
+
         System.out.print("Entrez l'humidité (0,1, 0,35, 0,6 ou 0,9): ");
         double humidite = sc.nextDouble(); sc.nextLine();
         System.out.print("Entrez la force du vent (0=nul, 1=modéré, 2=fort, 3=violent): ");
@@ -74,7 +76,7 @@ public class App {
             case 4: terrain = TypeTerrain.VILLE; break;
             case 5: terrain = TypeTerrain.VILLAGE; break;
         }
-        Scenario casDeFigure2 = new Scenario(humidite, taille, taille, new Vent(force, orientation), new Biome(new HashSet<>(), terrain));
+        Scenario casDeFigure2 = new Scenario(humidite, 50, 170, new Vent(force, orientation), new Biome(new HashSet<>(), terrain));//taille, taille
         System.out.println("Puissance du vent pour le casDeFigure2: "+casDeFigure2.getVent().getForce().getPuissance());
         //casDeFigure2.afficherGrille();
         System.out.println("La simulation est prête: "+casDeFigure2.isReadyForSim());
