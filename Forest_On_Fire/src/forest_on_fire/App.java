@@ -1,5 +1,6 @@
 package forest_on_fire;
 
+import java.util.ArrayList;
 //import java.util.ArrayList;
 //import java.util.Arrays;
 import java.util.HashSet;
@@ -7,6 +8,7 @@ import java.util.Scanner;
 
 import forest_on_fire.Biome.TypeTerrain;
 import forest_on_fire.Vent.Force;
+import forest_on_fire.random_terrain_gen.TerrainPreset;
 
 
 public class App {
@@ -65,6 +67,8 @@ public class App {
             case 2: orientation = Vent.Orientation.EST;break;
             case 3: orientation = Vent.Orientation.OUEST; break;
         }
+        /*
+        //Choix d'un biome unique
         System.out.print("Entrez le type de terrain (0=CLAIRSEMEE, 1=ESPACEE, 2=TOUFFUE, 3=CONTINUE, 4=VILLE, 5=VILLAGE): ");
         int choixVegetation = sc.nextInt(); sc.nextLine();
         TypeTerrain terrain = TypeTerrain.CLAIRSEMEE;  //Valeur par défaut du terrain   
@@ -76,11 +80,25 @@ public class App {
             case 4: terrain = TypeTerrain.VILLE; break;
             case 5: terrain = TypeTerrain.VILLAGE; break;
         }
-        Scenario casDeFigure2 = new Scenario(humidite, 50, 170, new Vent(force, orientation), new Biome(new HashSet<>(), terrain));//taille, taille
-        System.out.println("Puissance du vent pour le casDeFigure2: "+casDeFigure2.getVent().getForce().getPuissance());
+        //Creation d'un scenario à biome unique
+        Scenario casDeFigure2 = new Scenario(humidite, 50, 110, new Vent(force, orientation), new Biome(new HashSet<>(), terrain));//taille, taille
+        */
+        //Choix d'un preset
+        System.out.print("Entrez le type de preset (0=TERRAIN_CLASSIQUE, 1=FORET, 2=ILE): ");
+        int choixPreset = sc.nextInt(); sc.nextLine();
+        TerrainPreset terrain = TerrainPreset.TERRAIN_CLASSIQUE;  //Valeur par défaut du terrain   
+        switch(choixPreset){
+            case 0: terrain = TerrainPreset.TERRAIN_CLASSIQUE;break;
+            case 1: terrain = TerrainPreset.FORET;break;
+            case 2: terrain = TerrainPreset.ILE;break;
+        }            
+        //Creation d'un scenario à preset (multiples biomes)
+        Scenario casDeFigure2 = new Scenario(humidite, 70, 140, new Vent(force, orientation), new ArrayList<Biome>());//taille, taille
+
+        //System.out.println("Puissance du vent pour le casDeFigure2: "+casDeFigure2.getVent().getForce().getPuissance());
         //casDeFigure2.afficherGrille();
         System.out.println("La simulation est prête: "+casDeFigure2.isReadyForSim());
-        casDeFigure2.genererLaCarte();
+        casDeFigure2.genererCarteAleatoire(terrain);
         //casDeFigure2.afficherGrille();
         System.out.println("La simulation est prête: "+casDeFigure2.isReadyForSim());
         //casDeFigure2.getVent().afficherMatrice();

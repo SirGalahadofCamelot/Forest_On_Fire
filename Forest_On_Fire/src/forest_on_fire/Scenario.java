@@ -13,6 +13,8 @@ import java.util.concurrent.TimeUnit;
 
 import forest_on_fire.Vent.Force;
 import forest_on_fire.Vent.Orientation;
+import forest_on_fire.random_terrain_gen.RandTerrainGen;
+import forest_on_fire.random_terrain_gen.TerrainPreset;
 
 
 public class Scenario {
@@ -72,6 +74,9 @@ public class Scenario {
     public void addBiome(Biome nvBiome){
         this.biomes.add(nvBiome);
     }
+    public void addBiome(int index, Biome nvBiome){
+        this.biomes.add(index, nvBiome);
+    }
     public void genererLaCarte(){
         boolean ready = true;
         if(!this.isReadyForSim()){//Si la carte n'est pas prete pour une simulation, on synchronise les biomes avec la grille
@@ -86,11 +91,17 @@ public class Scenario {
                 this.biomes.get(0).generation();//Les cases vierges donnees au biome sont converties selon la densite de vegetation du biome
                 this.rangerCasesBiomesDansGrille();
             }
-            else{//Si il y a plus que 1 biome dans le scenario
-
+            else{//Si il y a plus que 1 biome dans le scenario //!!!!!!!!PAS ENCORE TESTé!!!!!!!!!!!!
+                this.biomes.forEach((Biome currentBiome) -> currentBiome.generation());//On genere chaque biome avec sa densité
+                this.rangerCasesBiomesDansGrille();
             }
         }
         System.out.println((ready) ? "Carte prête pour simulation!" : "Carte non prête pour la simulation.");
+    }
+    public void genererCarteAleatoire(TerrainPreset preset){
+        RandTerrainGen rand = new RandTerrainGen(preset, this);
+        rand.generateRandomMap();
+        this.genererLaCarte();
     }
 
     public boolean isReadyForSim(){//Si ne serait-ce qu'une seule case n'est pas valide pour la simulation, le scenario n'est pas pret
@@ -117,14 +128,28 @@ public class Scenario {
     public void setHumidite(double humidite) {
         this.humidite = humidite;
     }
+    
 
+    public int getTailleGrilleX() {
+        return tailleGrilleX;
+    }
+    
+    public int getTailleGrilleY() {
+        return tailleGrilleY;
+    }
+    
     public Vent getVent() {
         return vent;
     }
 
     public void setVent(Vent vent) {
         this.vent = vent;
+    }    
+
+    public ArrayList<Biome> getBiomes() {
+        return biomes;
     }
+    
     public Case getCaseGrille(int X, int Y) {
         if(X<this.tailleGrilleX && Y<this.tailleGrilleY) return grille[X][Y];
         else {
@@ -151,7 +176,7 @@ public class Scenario {
     public void afficherGrilleCouleurs(){
         for(int i=0;i<this.tailleGrilleX;i++){
             for(int j=0;j<this.tailleGrilleY;j++){
-                System.out.print(this.grille[i][j].getCouleurCase()+" "+"\u001B[0m");
+                System.out.print(this.grille[i][j].getCouleurCase()+"  "+"\u001B[0m");
             }
             System.out.println();
         }
@@ -197,6 +222,7 @@ public class Scenario {
                     else if(listeLigne[j]=='M') grilleTemp.get(i).add(new CaseMaison(i, j, Etat.INTACTE));
                     else if(listeLigne[j]=='_') grilleTemp.get(i).add(new CaseVide(i, j));
                     else if(listeLigne[j]=='X') grilleTemp.get(i).add(new Case(i,j,false));
+                    else if(listeLigne[j]=='~') grilleTemp.get(i).add(new CaseEau(i, j));
                     else System.out.println("Symbole no reconnu dans la lecture de la grille sauvegardée, à la case "+i+", "+j);
                 }
                 ligne = br.readLine();
